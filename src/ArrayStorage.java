@@ -49,15 +49,13 @@ public class ArrayStorage {
      */
     Resume[] getAll() {
         int count = 0;
-        for (Resume r : storage
-                ) {
+        for (Resume r : storage) {
             if (r == null)
                 count++;
         }
         Resume[] output = new Resume[storage.length - count];
         int j = 0;
-        for (Resume resume : storage
-                ) {
+        for (Resume resume : storage) {
             if (resume != null)
                 output[j++] = resume;
         }
@@ -66,6 +64,11 @@ public class ArrayStorage {
     }
 
     int size() {
-        return getAll().length;
+        int count = 0;
+        for (Resume r : storage) {
+            if (r != null)
+                count++;
+        }
+        return count;
     }
 }
