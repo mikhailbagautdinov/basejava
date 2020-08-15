@@ -31,12 +31,16 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        String methodName=stackTrace[2].getMethodName();
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return storage[i];
             }
         }
-        System.out.println("ERROR: Resume "+uuid+" doesn't exist!");
+        if(!(methodName.equals("update")||methodName.equals("save")||methodName.equals("delete"))) {
+            System.out.println("ERROR: Resume " + uuid + " doesn't exist!");
+        }
         return null;
     }
 
