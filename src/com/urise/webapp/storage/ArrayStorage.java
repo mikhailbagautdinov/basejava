@@ -20,7 +20,7 @@ public class ArrayStorage {
         String uuid;
         if (size < storage.length) {
             uuid = r.getUuid();
-            if (get(uuid) == null) {
+            if (!present(uuid)) {
                 storage[size++] = r;
             } else {
                 System.out.println("ERROR: Resume "+uuid+" already exists!");
@@ -31,21 +31,26 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-        String methodName=stackTrace[2].getMethodName();
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return storage[i];
             }
         }
-        if(!(methodName.equals("update")||methodName.equals("save")||methodName.equals("delete"))) {
-            System.out.println("ERROR: Resume " + uuid + " doesn't exist!");
-        }
+        System.out.println("ERROR: Resume " + uuid + " doesn't exist!");
         return null;
     }
 
+    public boolean present(String uuid) {
+        for (int i = 0; i < size; i++) {
+            if (storage[i].getUuid().equals(uuid)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void delete(String uuid) {
-        if (get(uuid) != null) {
+        if (present(uuid)) {
             for (int i = 0; i < size; i++) {
                 if (storage[i].getUuid().equals(uuid)) {
                     storage[i] = storage[size - 1];
@@ -61,7 +66,8 @@ public class ArrayStorage {
     public void update(Resume resume) {
         Resume r;
         String uuid = resume.getUuid();
-        if ((r = get(uuid)) != null) {
+        if (present(uuid)) {
+            r = get(uuid);
             r.setUuid("updated1");
         }
         else {
