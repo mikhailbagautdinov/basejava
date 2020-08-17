@@ -53,7 +53,7 @@ public class MainArray {
                     printAll();
                     break;
                 case "update":
-                    r= new Resume();
+                    r = new Resume();
                     r.setUuid(uuid);
                     ARRAY_STORAGE.update(r);
                     printAll();
