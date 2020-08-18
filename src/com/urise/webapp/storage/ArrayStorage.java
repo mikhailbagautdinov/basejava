@@ -34,33 +34,37 @@ public class ArrayStorage {
         if (check == -1) {
             System.out.println("ERROR: Resume " + uuid + " doesn't exist!");
             return null;
-        } else {
+        }
             return storage[check];
+    }
+
+    public void delete(String uuid) {
+        int check = present(uuid);
+        if (check != -1) {
+            storage[check] = storage[size - 1];
+            storage[--size] = null;
+        } else {
+            System.out.println("ERROR: Resume " + uuid + " doesn't exist!");
         }
     }
 
-    public int present(String uuid) {
+    public void update(Resume resume) {
+        String uuid = resume.getUuid();
+        int check = present(uuid);
+        if (check != -1) {
+            storage[check] = resume;//update resume in storage
+        } else {
+            System.out.println("ERROR: Resume " + uuid + " doesn't exist!");
+        }
+    }
+
+    private int present(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;
             }
         }
         return -1;
-    }
-
-    public void delete(String uuid) {
-        Resume resume = get(uuid);
-        if (resume != null) {
-            storage[present(uuid)] = storage[size - 1];
-            storage[--size] = null;
-        }
-    }
-
-    public void update(Resume resume) {
-        String uuid = resume.getUuid();
-        if (get(uuid) != null) {
-            storage[present(uuid)] = resume;//update resume in storage
-        }
     }
 
     /**
