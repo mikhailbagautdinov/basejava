@@ -19,10 +19,11 @@ public class ArrayStorage {
     public void save(Resume resume) {
         if (size < storage.length) {
             String uuid = resume.getUuid();
-            if (present(uuid) == -1) {
-                storage[size++] = resume;
-            } else {
+            int index = present(uuid);
+            if (index != -1) {
                 System.out.println("ERROR: Resume " + uuid + " already exists!");
+            } else {
+                storage[size++] = resume;
             }
         } else {
             System.out.println("ERROR: ArrayStorage overflow!");
@@ -30,29 +31,30 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        int check = present(uuid);
-        if (check == -1) {
-            System.out.println("ERROR: Resume " + uuid + " doesn't exist!");
-            return null;
+        int index = present(uuid);
+        if (index != -1) {
+            return storage[index];
         }
-            return storage[check];
+        System.out.println("ERROR: Resume " + uuid + " doesn't exist!");
+        return null;
     }
 
     public void delete(String uuid) {
-        int check = present(uuid);
-        if (check != -1) {
-            storage[check] = storage[size - 1];
+        int index = present(uuid);
+        if (index != -1) {
+            storage[index] = storage[size - 1];
             storage[--size] = null;
         } else {
             System.out.println("ERROR: Resume " + uuid + " doesn't exist!");
         }
     }
 
+    //update resume in storage
     public void update(Resume resume) {
         String uuid = resume.getUuid();
-        int check = present(uuid);
-        if (check != -1) {
-            storage[check] = resume;//update resume in storage
+        int index = present(uuid);
+        if (index != -1) {
+            storage[index] = resume;
         } else {
             System.out.println("ERROR: Resume " + uuid + " doesn't exist!");
         }
